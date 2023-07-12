@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
+    
+    <!----===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    
+    <title>Inventory</title> 
+</head>
+<body class="dark">
+
+    {% include 'nav.html' %}
+    <section class="home">
+        <div class="text">Inventory </div>
+
+        {% if admin_account %}   
+        <button class="add-button" onclick="addItemToInventory()">+ Add items to Inventory</button>
+        {% endif %}
+        <br><br><br>
+        <table>
+            <thead>
+                <tr class="tr-0">
+                    <th>S.no</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+            
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                  <td>{{loop.index}}</td>
+                  <td>{{product[0]}}</td>
+                  <td>{{product[1]}}</td>
+                  <td>{{product[2]}}</td>
+                  <td>{{product[3]}}</td>
+                  <td>{{product[4]}}</td>
+            
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    <div class="edit-form-container">
+        <div>
+            <h4>Add Product </h4>
+          </div>
+          <button class="close-btn" onclick="closeEditForm()">&times;</button>
+        <form method='post' id="edit-form">
+            <label>Product Id</label>
+            <input type="text" name="p_id" id="edit-name" placeholder="Enter Product ID" required>
+            <label>Product Name</label>
+            <input type="text" name="p_name" id="edit-pass" placeholder="Enter Product Name" required>
+            <label>Description</label>
+            <input type="text" name="desc" id="edit-pass" placeholder="Enter Description of the Product " required>
+            <label>Price</label>
+            <input type="number" name="price"  min="1" >
+            <label>Quantity</label>
+            <input type="number" id="qty" name="quantity" min="1" >
+            <button type="submit" class="submit-btn">Add Item</button>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
