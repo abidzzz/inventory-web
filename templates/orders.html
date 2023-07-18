@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
+    
+    <!----===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    
+    <title>Orders</title> 
+</head>
+<body class="dark">
+
+    {% include 'nav.html' %}
+    <section class="home">
+        <div class="text">Orders </div>
+        <table>
+            <thead>
+                <tr class="tr-0">
+                    <th>S.no</th>
+                    <th>Receipt No</th>
+                    <th>Total Items</th>
+                    <th>Total Amount</th>
+                    <th>Quantity</th>
+                    <th>Date</th>
+                    <th>Time</th>
+
+                </tr>
+            
+            </thead>
+            <tbody>
+                {% for orders in orders %}
+                <tr>
+                  <td>{{loop.index}}</td>
+                  <td>{{orders[0]}}</td>
+                  <td>{{orders[1]}}</td>
+                  <td>{{orders[2]}}</td>
+                  <td>{{orders[3]}}</td>
+                  <td>{{orders[4]}}</td>
+                  <td>{{orders[5]}}</td>
+
+
+                </tr>
+
+
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+</body>
+</html>

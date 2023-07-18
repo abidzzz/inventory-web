@@ -42,7 +42,7 @@
                 {% if admin_account %}        
                 <li class="nav-link">
                     <a href="/users">
-                        <i class='bx bx-wallet icon' ></i>
+                        <i class='bx bx-user icon' ></i>
                         <span class="text nav-text">Users</span>
                     </a>
                 </li>
@@ -57,7 +57,13 @@
             {% endif %}
             </ul>
         </div>
-
+        <div class="bottom-content">
+            <li class="">
+                    <i class='bx bx-user-circle icon' ></i>
+                    <span class="text nav-text">{{username}}</span>
+            </li>
+        </div>
+    </div>
         <div class="bottom-content">
             <li class="">
                 <a href="/logout">
@@ -67,6 +73,6 @@
             </li>
             
         </div>
-    </div>
+
 
 </nav>

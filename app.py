@@ -23,15 +23,18 @@ con.database = 'inventory'
 
 cur.execute("CREATE TABLE if not exists users (username varchar (20) PRIMARY KEY, password	varchar (20) NOT NULL, account_type varchar (10) NOT NULL);")
 cur.execute("CREATE TABLE if not exists products (product_id varchar (20) PRIMARY KEY, product_name varchar (50) NOT NULL, description varchar (50) NOT NULL, price DECIMAL(10, 2) NOT NULL, quantity INTEGER NOT NULL);")
-cur.execute("CREATE TABLE if not exists orders (order_id INTEGER PRIMARY KEY, invoice INTEGER NOT NULL, product_id varchar (20), quantity INTEGER NOT NULL, date varchar (20), time varchar (20));")
+cur.execute("CREATE TABLE if not exists orders (receipt_no INTEGER PRIMARY KEY, invoice INTEGER NOT NULL, product_id varchar (20), quantity INTEGER NOT NULL, date varchar (20), time varchar (20));")
 
 @app.context_processor
 def set_global_html_variable_values():
     if session.get('acc_type') == 'ADMIN':
         admin_account = True
+        username = session.get('username')
     else:
+        username = False
         admin_account = False
-    template_config = {'admin_account': admin_account}
+    template_config = {'admin_account': admin_account, 'username':username}
+
     return template_config
 
 
@@ -42,6 +45,7 @@ def home():
         return render_template('dashboard.html', username=session['username'])
     
     return redirect('/login')
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -84,6 +88,16 @@ def users():
     return redirect('/login')
 
 
+@app.route('/orders')
+def orders():
+    if 'username' in session:
+        cur.execute("select * from orders")
+        orders = cur.fetchall()
+        return render_template('orders.html', orders = orders)
+    
+    return redirect('/login')
+
+
 @app.route('/inventory', methods=['GET', 'POST'])
 def inventory():
 
@@ -104,7 +118,25 @@ VALUES ('{p_id}', '{p_name}', '{desc}', {price},{qty});'''
     
     return redirect('/login')
 
+@app.route('/shop', methods=['GET', 'POST'])
+def shop():
 
+    if 'username' in session:
+        if request.method == 'POST':
+            order_id = request.form['p_id']
+            p_name = request.form['p_name']
+            desc = request.form['desc']
+            price = request.form['price']
+            qty = request.form['quantity']
+            query = f'''INSERT INTO orders (order_id, invoice, product_id, quantity, date, time)
+VALUES ('{order_id}', '{p_name}', '{desc}', {price},{qty});'''
+            cur.execute(query)
+            con.commit()
+        cur.execute("select * from products")
+        products = cur.fetchall()
+        return render_template('inventory.html', products = products)
+    
+    return redirect('/login')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
