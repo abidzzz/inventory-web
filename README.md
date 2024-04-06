@@ -8,7 +8,6 @@ This repository is to reuse the login functionalities and other features which i
 ## Screenshots
 
 <p align="left">
-<img src="screenshots/0.png"></image>
 <img src="screenshots/1.png"></image>
 <img src="screenshots/2.png"></image>
 <img src="screenshots/3.png"></image>
